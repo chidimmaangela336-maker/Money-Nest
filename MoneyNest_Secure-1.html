@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MoneyNest Prototype</title>
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--ink:#182230;--muted:#6b7280;--accent:#246bfe;--line:#e7ebf0;--good:#159447}
+*{box-sizing:border-box}body{margin:0;background:#dfe5ee;font-family:Inter,Arial,sans-serif;color:var(--ink)}
+.phone{width:390px;max-width:100vw;min-height:844px;margin:0 auto;background:var(--bg);overflow:hidden;position:relative}
+.screen{display:none;padding:24px 20px 90px}.screen.active{display:block}
+h1{font-size:29px;margin:8px 0 6px}.sub{color:var(--muted);font-size:14px;line-height:1.45}
+.logo{font-weight:900;font-size:26px;letter-spacing:.5px;color:var(--accent);margin-top:12px}
+.btn{width:100%;border:0;border-radius:14px;padding:15px;font-weight:800;font-size:15px;background:var(--accent);color:#fff;margin-top:14px}
+.btn.secondary{background:#eaf0ff;color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:14px;box-shadow:0 5px 18px #1b315d0a}
+.balance{font-size:31px;font-weight:900;margin:7px 0}.label{font-size:12px;color:var(--muted)}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px;border-radius:15px;background:#fff;border:1px solid var(--line)}
+.money{font-weight:800;margin-top:5px}.good{color:var(--good)}
+input{width:100%;padding:14px;border:1px solid var(--line);border-radius:13px;margin-top:8px;font-size:15px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.quick button{border:1px solid var(--line);background:#fff;border-radius:14px;padding:15px;text-align:left;font-weight:800}
+.item{padding:13px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}
+.progress{height:8px;background:#e9edf3;border-radius:20px;overflow:hidden;margin-top:9px}.bar{height:100%;width:68%;background:var(--accent)}
+.nav{position:fixed;bottom:0;width:390px;max-width:100vw;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 4px 13px;z-index:5}
+.nav button{border:0;background:none;color:var(--muted);font-size:11px;font-weight:700}.nav button.active{color:var(--accent)}
+.back{border:0;background:none;font-size:20px;padding:0}.pill{background:#eef3ff;color:var(--accent);border-radius:20px;padding:6px 10px;font-size:11px;font-weight:800}
+.chat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin-top:12px}.bubble{background:#eef3ff;border-radius:15px;padding:12px;margin:8px 0;max-width:90%}.bubble.me{background:#246bfe;color:#fff;margin-left:auto}
+.small{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="phone">
+<section id="welcome" class="screen active">
+<div style="padding-top:90px;text-align:center">
+<div class="logo">MONEYNEST</div>
+<div style="margin:18px auto 10px;display:inline-block;padding:8px 14px;border-radius:20px;background:#eef3ff;color:#246bfe;font-size:12px;font-weight:800">👑 App Owner: Eric Angela Chidimma</div>
+<h1>Your money.<br>Your plan.<br>Your future.</h1>
+<p class="sub">Take control of spending, subscriptions and savings—all in one place.</p>
+<button class="btn" onclick="go('setup')">Get Started</button>
+<button class="btn secondary" onclick="go('login')">Log In</button><button class="btn secondary" onclick="go('adminLogin')">Developer / Admin</button>
+</div></section>
+
+<section id="login" class="screen">
+<button class="back" onclick="go('welcome')">←</button><h1>Welcome back</h1><p class="sub">Log in to continue to MoneyNest.</p>
+<div class="card"><label class="label">Email</label><input placeholder="you@example.com"><label class="label">Password</label><input type="password" placeholder="••••••••"><button class="btn" onclick="go('home')">Log In</button><p class="small" style="text-align:center">Forgot password?</p></div>
+</section>
+
+<section id="setup" class="screen">
+<h1>Let’s set up your plan 👋</h1><p class="sub">Use example values for now—you can change them later.</p>
+<div class="card"><label class="label">Monthly income</label><input value="$3,000"><label class="label">Main savings goal</label><input value="$500 emergency fund"><label class="label">Monthly spending target</label><input value="$2,200"><button class="btn" onclick="go('home')">Finish Setup</button></div>
+</section>
+
+<section id="home" class="screen">
+<div class="row"><div><div class="small">Good morning 👋</div><h1 style="margin-top:3px">Your overview</h1></div><span class="pill">$ USD</span></div>
+<div class="card"><div class="label">Available balance</div><div class="balance">$2,450.00</div><div class="small">Example balance</div></div>
+<div class="grid"><div class="stat"><div class="label">Income</div><div class="money">$3,000</div></div><div class="stat"><div class="label">Spent</div><div class="money">$550</div></div><div class="stat"><div class="label">Saved</div><div class="money good">$300</div></div><div class="stat"><div class="label">Subscriptions</div><div class="money">$42</div></div></div>
+<div class="quick"><button onclick="go('spending')">💳 Spending</button><button onclick="go('subscriptions')">🔔 Subscriptions</button><button onclick="go('goals')">🎯 Savings</button><button onclick="go('ai')">🤖 AI Helper</button></div>
+<div class="card"><div class="row"><b>Recent activity</b><button class="pill" onclick="go('activity')">See all</button></div>
+<div class="item">🍔 Food <span style="float:right">-$18.50</span></div><div class="item">💼 Income <span style="float:right;color:var(--good)">+$500.00</span></div></div>
+</section>
+
+<section id="spending" class="screen">
+<button class="back" onclick="go('home')">←</button><h1>Spending</h1><p class="sub">See where your money is going.</p>
+<div class="card"><div class="label">Spent this month</div><div class="balance">$550.00</div><div class="progress"><div class="bar" style="width:42%"></div></div></div>
+<div class="card"><b>Categories</b><div class="item">🍔 Food <span style="float:right">$180</span></div><div class="item">🛍 Shopping <span style="float:right">$140</span></div><div class="item">🚗 Transport <span style="float:right">$95</span></div><div class="item">📱 Bills <span style="float:right">$135</span></div></div>
+<button class="btn" onclick="alert('Add Transaction screen coming next.')">+ Add Transaction</button>
+</section>
+
+<section id="activity" class="screen">
+<button class="back" onclick="go('home')">←</button><h1>Activity</h1><p class="sub">Your recent income and expenses.</p>
+<div class="card"><div class="item">🍔 Food — Sep 9 <span style="float:right">-$18.50</span></div><div class="item">🎵 Music — Sep 8 <span style="float:right">-$10.99</span></div><div class="item">💼 Income — Sep 7 <span style="float:right;color:var(--good)">+$500.00</span></div><div class="item">🛒 Groceries — Sep 6 <span style="float:right">-$64.30</span></div></div>
+</section>
+
+<section id="subscriptions" class="screen">
+<button class="back" onclick="go('home')">←</button><h1>Subscriptions</h1><p class="sub">Keep track of recurring payments.</p>
+<div class="card"><div class="label">Monthly total</div><div class="balance">$42.00</div></div>
+<div class="card"><div class="item"><b>Netflix</b><span style="float:right">$15.99<br><span class="small">Next: Sep 18</span></span></div><div class="item"><b>Spotify</b><span style="float:right">$10.99<br><span class="small">Next: Sep 21</span></span></div><div class="item"><b>Cloud Storage</b><span style="float:right">$15.02<br><span class="small">Next: Sep 25</span></span></div></div>
+<button class="btn" onclick="alert('Add Subscription screen coming next.')">+ Add Subscription</button>
+</section>
+
+<section id="goals" class="screen">
+<button class="back" onclick="go('home')">←</button><h1>Savings Goals</h1><p class="sub">Small steps can add up.</p>
+<div class="card"><div class="row"><b>Emergency Fund</b><span class="pill">68%</span></div><div class="money">$340 / $500</div><div class="progress"><div class="bar"></div></div></div>
+<div class="card"><div class="row"><b>New Phone</b><span class="pill">25%</span></div><div class="money">$125 / $500</div><div class="progress"><div class="bar" style="width:25%"></div></div></div>
+<button class="btn" onclick="alert('Create Goal screen coming next.')">+ Create Goal</button>
+</section>
+
+<section id="ai" class="screen">
+<button class="back" onclick="go('home')">←</button><h1>AI Money Helper 🤖</h1><p class="sub">Simple guidance for organizing your money.</p>
+<div class="chat"><div class="bubble">Hi! I’m your MoneyNest helper. What would you like to work on?</div><div class="bubble me">Help me save $500.</div><div class="bubble">If you save $50 each week, you could reach $500 in about 10 weeks. I can also help you build a budget.</div></div>
+<div class="quick"><button>Build a budget</button><button>Why did I overspend?</button><button>Find subscriptions</button><button>Save $500</button></div>
+<p class="small" style="margin-top:14px">MoneyNest provides educational and organizational information, not professional financial advice.</p>
+</section>
+
+<section id="report" class="screen">
+<button class="back" onclick="go('home')">←</button><h1>Monthly Report</h1><p class="sub">Your example September summary.</p>
+<div class="grid"><div class="stat"><div class="label">Income</div><div class="money">$3,000</div></div><div class="stat"><div class="label">Spent</div><div class="money">$550</div></div><div class="stat"><div class="label">Saved</div><div class="money good">$300</div></div><div class="stat"><div class="label">Top category</div><div class="money">Food</div></div></div>
+<div class="card"><b>MoneyNest insight</b><p class="sub">Your spending is below the example monthly target. Keep tracking recurring payments and move a little toward your savings goal each week.</p></div>
+</section>
+
+<section id="adminLogin" class="screen">
+<button class="back" onclick="go('welcome')">←</button><h1>Developer / Admin</h1><p class="sub">Private owner access for managing MoneyNest.</p>
+<div class="card"><label class="label">Admin email</label><input id="adminEmail" type="email" placeholder="owner@moneynest.app"><label class="label">Admin password</label><input id="adminPassword" type="password" placeholder="••••••••"><button class="btn" onclick="adminDemoLogin()">Enter Admin Dashboard</button><p class="small">Demo only: this prototype does not create a real secure account yet.</p></div>
+</section>
+
+<section id="admin" class="screen">
+<button class="back" onclick="go('profile')">←</button><div class="row"><div><div class="small">Owner access — Eric Angela Chidimma</div><h1>Admin Dashboard</h1></div><span class="pill">ADMIN</span></div>
+<div class="grid"><div class="stat"><div class="label">Premium members</div><div class="money">24</div></div><div class="stat"><div class="label">Monthly earnings</div><div class="money">₦36,000</div></div><div class="stat"><div class="label">Total users</div><div class="money">128</div></div><div class="stat"><div class="label">Pending payout</div><div class="money">₦36,000</div></div></div>
+<div class="card"><b>My Payout Account</b><p class="sub">This is where MoneyNest earnings will be sent after a real payment provider is connected.</p><button class="btn" onclick="go('payout')">Manage Payout Account</button></div>
+<div class="card"><b>Premium</b><div class="item">Price <span style="float:right">₦1,500 / month</span></div><div class="item">Active subscribers <span style="float:right">24</span></div></div>
+<button class="btn secondary" onclick="go('welcome')">Log Out of Admin</button>
+</section>
+
+<section id="payout" class="screen">
+<button class="back" onclick="go('admin')">←</button><h1>My Payout Account</h1><p class="sub">Enter the account that should receive your MoneyNest earnings.</p>
+<div class="card"><label class="label">Account name</label><input id="payoutName" placeholder="Your account name"><label class="label">Bank</label><input id="payoutBank" placeholder="Select your bank"><label class="label">Account number</label><input id="payoutNumber" inputmode="numeric" maxlength="10" placeholder="10-digit account number"><label class="label">Payout method</label><input value="Nigerian bank transfer" readonly><button class="btn" onclick="savePayout()">Save Payout Account</button><p class="small" id="payoutStatus">Demo mode — no real money will be transferred from this prototype.</p></div>
+<div class="card"><b>🔒 Security reminder</b><p class="sub">Never enter your bank PIN, card PIN, OTP or password here. A live version will store payout information securely through a proper payment provider.</p></div>
+</section>
+
+
+<section id="money" class="screen">
+<button class="back" onclick="go('profile')">←</button><h1>My Money</h1><p class="sub">Add your money details so MoneyNest can organize your balance, income, savings and cash.</p>
+<div class="card"><label class="label">Account / wallet name</label><input id="moneyName" placeholder="e.g. My Bank or Cash Wallet"><label class="label">Current balance</label><input id="moneyBalance" type="number" inputmode="decimal" placeholder="0.00"><label class="label">Monthly income</label><input id="moneyIncome" type="number" inputmode="decimal" placeholder="0.00"><label class="label">Current savings</label><input id="moneySavings" type="number" inputmode="decimal" placeholder="0.00"><button class="btn" onclick="saveMoney()">Save My Money</button><p class="small" id="moneyStatus">Demo mode — these details are saved only on this device/browser.</p></div>
+<div class="card"><b>🔒 Keep your account safe</b><p class="sub">Never enter your bank password, PIN, card PIN or OTP. A real MoneyNest app should use secure banking/payment connections instead of asking for those details.</p></div>
+<div class="card"><b>💸 Withdraw Money</b><p class="sub">Move money out to a verified bank account. This prototype only simulates the request.</p><button class="btn" onclick="go('withdraw')">Withdraw Money</button></div>
+<div class="card"><b>🔐 Security Center</b><p class="sub">Protect your MoneyNest account with re-authentication and transaction confirmation.</p><button class="btn secondary" onclick="go('security')">Open Security</button></div>
+<div class="card"><b>How users add money</b><p class="sub">1. Sign in to their MoneyNest account.<br>2. Open Profile → My Money.<br>3. Add their balance, income and savings.<br>4. Tap Save My Money.</p></div>
+</section>
+
+<section id="withdraw" class="screen">
+<button class="back" onclick="go('money')">←</button><h1>Withdraw Money</h1><p class="sub">Send money to a bank account you have verified. For safety, withdrawals require confirmation.</p>
+<div class="card"><div class="label">Available to withdraw</div><div class="balance" id="withdrawBalance">₦0.00</div><label class="label">Amount</label><input id="withdrawAmount" type="number" inputmode="decimal" min="1" placeholder="Enter amount"><label class="label">Verified bank account</label><input id="withdrawBank" placeholder="e.g. GTBank •••• 1234"><button class="btn" onclick="reviewWithdraw()">Review Withdrawal</button></div>
+<div class="card"><b>🔒 Withdrawal protection</b><p class="sub">A live version must verify the signed-in user, re-authenticate sensitive transactions, check available balance server-side, and use a secure payment provider. Never request a bank PIN, card PIN or OTP inside MoneyNest.</p></div>
+</section>
+
+<section id="security" class="screen">
+<button class="back" onclick="go('profile')">←</button><h1>Security Center</h1><p class="sub">Security controls for your MoneyNest account.</p>
+<div class="card"><div class="item"><b>🔑 Account password</b><span class="pill">Protected</span></div><div class="item"><b>🔢 Transaction PIN</b><span class="pill">Required</span></div><div class="item"><b>📱 Sign-in verification</b><span class="pill">Recommended</span></div><div class="item"><b>💸 Withdrawal re-authentication</b><span class="pill">Required</span></div><div class="item"><b>🔒 Secure connection</b><span class="pill">HTTPS required</span></div></div><div class="card"><b>🔢 Set / Change Transaction PIN</b><p class="sub">Use a separate 4–6 digit MoneyNest transaction PIN to confirm sensitive actions. This is NOT your bank PIN.</p><button class="btn secondary" onclick="setTransactionPin()">Set Transaction PIN</button></div>
+<div class="card"><b>Important</b><p class="sub">This HTML prototype cannot provide real banking-grade security. In the production app, passwords must be protected server-side, sessions must be securely managed, sensitive actions must require re-authentication, and financial transactions must be authorized on the server.</p></div>
+</section>
+
+<section id="profile" class="screen">
+<h1>Profile & Settings</h1><p class="sub">Manage your MoneyNest account.</p>
+<div class="card"><div class="item" onclick="go('money')"><b>💰 My Money</b><span style="float:right">›</span></div><div class="item" onclick="go('adminLogin')"><b>Developer / Admin</b><span style="float:right">›</span></div><div class="item"><b>Personal information</b><span style="float:right">›</span></div><div class="item"><b>Currency</b><span style="float:right">USD ›</span></div><div class="item"><b>Notifications</b><span style="float:right">›</span></div><div class="item" onclick="go('security')"><b>🔐 Security</b><span style="float:right">›</span></div><div class="item"><b>Help & FAQ</b><span style="float:right">›</span></div></div>
+<button class="btn secondary" onclick="go('welcome')">Log Out</button>
+</section>
+
+<nav class="nav">
+<button onclick="go('home')">⌂<br>Home</button><button onclick="go('activity')">◷<br>Activity</button><button onclick="go('goals')">◎<br>Goals</button><button onclick="go('report')">▥<br>Reports</button><button onclick="go('profile')">♙<br>Profile</button>
+</nav>
+</div>
+<script>
+function go(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function adminDemoLogin(){const e=document.getElementById('adminEmail').value.trim();const p=document.getElementById('adminPassword').value;if(!e||!p){alert('Enter the demo admin email and password first.');return}go('admin')}
+function saveMoney(){const name=document.getElementById('moneyName').value.trim();const balance=document.getElementById('moneyBalance').value;const income=document.getElementById('moneyIncome').value;const savings=document.getElementById('moneySavings').value;if(!name||balance===''||income===''||savings===''){alert('Please fill in the account name, balance, income and savings.');return}window.moneynestDemoMoney={name,balance,income,savings};document.getElementById('moneyStatus').textContent='Saved only for this open demo session. Sensitive financial data is not stored in browser localStorage.';alert('Your money details have been saved.');go('profile')}
+function savePayout(){const n=document.getElementById('payoutName').value.trim();const b=document.getElementById('payoutBank').value.trim();const a=document.getElementById('payoutNumber').value.trim();if(!n||!b||a.length!==10){alert('Please enter an account name, bank and a 10-digit account number.');return}document.getElementById('payoutStatus').textContent='Saved for this demo only. Real payouts are not connected yet.';alert('Payout account saved in this demo.')}
+function setTransactionPin(){const pin=prompt('Create a 4–6 digit MoneyNest transaction PIN. Do NOT use your bank PIN.');if(pin===null)return;if(!/^\d{4,6}$/.test(pin)){alert('PIN must contain 4–6 digits.');return}const confirmPin=prompt('Enter the PIN again to confirm.');if(pin!==confirmPin){alert('PINs do not match.');return}window.moneynestDemoPinConfigured=true;alert('Transaction PIN set for this demo. In the real app, the PIN must be securely hashed and stored on the server—not in the app.');}
+function requestTransactionPin(action){if(!window.moneynestDemoPinConfigured){alert('Please set your MoneyNest transaction PIN first in Security Center.');return false}const pin=prompt('Enter your MoneyNest transaction PIN to '+action+'. Never enter your bank PIN here.');if(pin===null)return false;if(!/^\d{4,6}$/.test(pin)){alert('Invalid transaction PIN.');return false}return true;}
+function reviewWithdraw(){const amount=Number(document.getElementById('withdrawAmount').value);const bank=document.getElementById('withdrawBank').value.trim();if(!amount||amount<=0||!bank){alert('Enter a valid amount and verified bank account.');return}if(!requestTransactionPin('confirm this withdrawal'))return;if(!confirm('Confirm withdrawal of ₦'+amount.toLocaleString()+' to '+bank+'?')) return;alert('Demo withdrawal request created. No real money was transferred.');}
+</script>
+</body>
+</html>
